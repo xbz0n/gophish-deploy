@@ -26,8 +26,8 @@ This repository provides a Python script to automate the deployment and configur
 Clone this repository or download the script file:
 
 ```bash
-git clone https://github.com/yourusername/gophish-deployment-script.git
-cd gophish-deployment-script
+git clone https://github.com/xbz0n/gophish-deploy.git
+cd gophish-deploy
 ```
 
 ### Step 2: Run the Script
@@ -35,13 +35,13 @@ cd gophish-deployment-script
 Run the script with the required domain name:
 
 ```bash
-python deploy_gophish.py <your-domain>
+python GoPhish-Deploy.py <your-domain>
 ```
 
 #### Example:
 
 ```bash
-python deploy_gophish.py example.com
+python GoPhish-Deploy.py example.com
 ```
 
 ### Script Actions
