@@ -1,83 +1,108 @@
-# GoPhish Deployment Script
+# GoPhish-Deploy
 
-This repository provides a Python script to automate the deployment and configuration of the [GoPhish](https://github.com/gophish/gophish) phishing framework. The script installs all necessary dependencies, configures SSL certificates, and sets up the environment for a production-ready deployment.
+<p align="center">
+  <img src="https://img.shields.io/badge/Version-1.0-brightgreen" alt="Version">
+  <img src="https://img.shields.io/badge/Language-Python%203-blue" alt="Language">
+  <img src="https://img.shields.io/badge/Platform-Linux-orange" alt="Platform">
+  <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License">
+</p>
+
+<p align="center">
+  <b>GoPhish-Deploy</b> is an automated deployment script for the GoPhish phishing framework, configuring it with SSL and secure defaults.
+</p>
+
+<p align="center">
+  <a href="https://xbz0n.sh"><img src="https://img.shields.io/badge/Blog-xbz0n.sh-red" alt="Blog"></a>
+</p>
+
+---
+
+## Overview
+
+GoPhish-Deploy automates the deployment and configuration of the [GoPhish](https://github.com/gophish/gophish) phishing framework. The script installs all necessary dependencies, configures SSL certificates, and sets up the environment for a production-ready deployment.
 
 ## Features
 
-- Automatic system updates and dependency installation.
-- Installation of Go 1.12.
-- Cloning and building the GoPhish project.
-- Automatic SSL certificate generation using Certbot.
-- Configuration of GoPhish to use SSL.
-- Setting up GoPhish to start automatically on reboot.
-- Custom database initialization and configuration.
-- External IP fetching for easier access.
+- **Fully automated** - Complete installation and configuration in one script
+- **SSL ready** - Automatic certificate generation with Certbot
+- **Secure defaults** - Pre-configured with security best practices
+- **Custom modifications** - Removes server headers and changes tracking parameters
+- **Auto-start** - Configures GoPhish to start on system reboot
+- **User-friendly** - Simple setup requiring only a domain name
 
-## Prerequisites
+## System Compatibility
 
-- A Linux-based operating system (tested on Ubuntu/Debian).
-- Root privileges.
-- A valid domain name pointing to the server.
+| OS | Compatibility | Feature Support |
+|----|---------------|-----------------|
+| Ubuntu | ✅ | Full support |
+| Debian | ✅ | Full support |
+| Other Linux | ⚠️ | May require modifications |
+
+## Requirements
+
+- Linux-based operating system (tested on Ubuntu/Debian)
+- Root privileges
+- A valid domain name pointing to the server
+
+## Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/xbz0n/gophish-deploy.git
+cd gophish-deploy
+
+# Run the deployment script with your domain
+python GoPhish-Deploy.py your-domain.com
+```
 
 ## Usage
 
-### Step 1: Clone the Repository
-
-Clone this repository or download the script file:
-
-```bash
-git clone https://github.com/xbz0n/gophish-deploy.git
-cd gophish-deploy
-```
-
-### Step 2: Run the Script
-
-Run the script with the required domain name:
-
-```bash
-python GoPhish-Deploy.py <your-domain>
-```
-
-#### Example:
+### Basic Deployment
 
 ```bash
 python GoPhish-Deploy.py example.com
 ```
 
-### Script Actions
+### Accessing the Admin Panel
 
-1. **System Update and Dependency Installation:** Installs required packages like `unzip`, `sqlite3`, `certbot`, etc.
-2. **Go Installation:** Installs Go 1.12, which is required to build GoPhish.
-3. **Clone GoPhish Repository:** Clones the official GoPhish GitHub repository into `/opt/gophish`.
-4. **Build GoPhish:** Compiles GoPhish and makes it executable.
-5. **Configure SSL Certificates:** Uses Certbot to generate SSL certificates for the provided domain.
-6. **Modify Configuration:** Updates the GoPhish configuration file to enable HTTPS and use the generated certificates.
-7. **Set up Auto-Start:** Configures GoPhish to start automatically upon system reboot.
-8. **Start GoPhish:** Starts the GoPhish service.
+After deployment, access the GoPhish admin panel:
 
-### Step 3: Access the GoPhish Admin Panel
+```bash
+# Set up an SSH tunnel
+ssh root@<your-server-ip> -L 3333:127.0.0.1:3333
 
-After successful deployment, access the GoPhish admin panel:
+# Then open in your browser
+# https://127.0.0.1:3333
+# Login with:
+# Username: admin
+# Password: gophish@123
+```
 
-1. Set up an SSH tunnel:
-   ```bash
-   ssh root@<your-server-ip> -L 3333:127.0.0.1:3333
-   ```
+## Script Workflow
 
-2. Open your browser and visit:
-   ```
-   https://127.0.0.1:3333
-   ```
+1. Updates system and installs dependencies
+2. Installs Go 1.12 runtime environment
+3. Clones and builds the GoPhish project
+4. Applies custom modifications to improve security
+5. Generates SSL certificates using Certbot
+6. Configures GoPhish to use HTTPS
+7. Sets up auto-start on system reboot
+8. Provides access instructions using SSH tunnel
 
-3. Use the following credentials to log in:
-   - **Username:** `admin`
-   - **Password:** `gophish@123`
+## Detailed Functionality
 
-> **Note:** Change the default credentials after logging in for the first time.
+| Function | Description |
+|----------|-------------|
+| System Update | Updates package lists and installs required dependencies |
+| Go Installation | Installs Go 1.12 required to build GoPhish |
+| Security Modifications | Removes X-Server header and changes tracking parameter from "rid" to "fname" |
+| Database Configuration | Sets a default admin password and disables password change requirement |
+| SSL Configuration | Generates and configures SSL certificates for secure connections |
+| Auto-start | Creates a cron job to start GoPhish automatically on system reboot |
 
 ## Logs and Debugging
 
-- Logs are stored in `/var/log/gophish`.
+- Logs are stored in `/var/log/gophish`
 - To manually start GoPhish:
   ```bash
   cd /opt/gophish
@@ -86,15 +111,25 @@ After successful deployment, access the GoPhish admin panel:
 
 ## Troubleshooting
 
-If the script encounters errors:
-- Ensure you are running it with root privileges.
-- Verify your domain is correctly pointing to the server.
-- Check the log files for detailed error information.
+If you encounter issues:
+- Ensure you are running the script with root privileges
+- Verify your domain is correctly pointing to the server
+- Check that port 80 and 443 are available for Certbot and GoPhish
+- Examine the GoPhish logs for specific error messages
 
 ## Contributing
 
-Feel free to open issues or submit pull requests for improvements or bug fixes.
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Author
+
+- **Ivan Spiridonov (xbz0n)** - [Blog](https://xbz0n.sh) | [GitHub](https://github.com/xbz0n)
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- The [GoPhish](https://github.com/gophish/gophish) project for their excellent phishing framework
+- The security testing community for inspiration
